@@ -3,7 +3,7 @@ import { WebSocket } from 'ws';
 import { Orchestrator, AgentEvent } from '../core/agents/Orchestrator';
 import pool from '../db/database';
 
-const router = Router();
+const router: Router = Router();
 const sessions = new Map<string, Orchestrator>();
 
 function getOrCreateSession(sessionId: string): Orchestrator {
