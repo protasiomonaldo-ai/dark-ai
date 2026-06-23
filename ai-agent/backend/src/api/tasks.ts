@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import pool from '../db/database';
 
-const router = Router();
+const router: Router = Router();
 
 router.get('/:sessionId', async (req: Request, res: Response) => {
   const { sessionId } = req.params;
