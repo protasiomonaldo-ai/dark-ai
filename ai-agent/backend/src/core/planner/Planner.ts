@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import { ReasoningResult, Complexity } from '../reasoning/ReasoningEngine';
 import pool from '../../db/database';
 
@@ -81,13 +82,13 @@ const TASK_TEMPLATES: Record<string, (goal: string) => Array<{ title: string; de
 
 export class Planner {
   async createPlan(reasoning: ReasoningResult, sessionId: string): Promise<Plan> {
-    const goalId = `goal_${Date.now()}`;
+    const goalId = randomUUID();
     const templateKey = reasoning.intent in TASK_TEMPLATES ? reasoning.intent : 'DEFAULT';
     const template = TASK_TEMPLATES[templateKey] || TASK_TEMPLATES['DEFAULT'];
     const taskDefs = template(reasoning.goal);
 
     const tasks: PlannedTask[] = [];
-    const ids: string[] = taskDefs.map(() => `task_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`);
+    const ids: string[] = taskDefs.map(() => randomUUID());
 
     for (let i = 0; i < taskDefs.length; i++) {
       const def = taskDefs[i];
