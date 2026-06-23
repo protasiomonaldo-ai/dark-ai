@@ -2,7 +2,6 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
-import bodyParser from 'body-parser';
 import { createServer } from 'http';
 import { WebSocketServer, WebSocket } from 'ws';
 import path from 'path';
@@ -16,9 +15,8 @@ const PORT = parseInt(process.env.PORT || '3001');
 
 app.use(cors({ origin: '*' }));
 app.use(morgan('combined'));
-app.use(bodyParser.json({ limit: '10mb' }));
-app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true }));
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', version: '1.0.0', agent: 'AI Agent Platform', timestamp: new Date().toISOString() });
 });
