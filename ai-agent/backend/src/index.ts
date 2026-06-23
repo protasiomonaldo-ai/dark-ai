@@ -25,7 +25,7 @@ app.use('/api/chat', chatRouter);
 app.use('/api/memory', memoryRouter);
 app.use('/api/tasks', tasksRouter);
 
-const FRONTEND_DIST = path.join(__dirname, '../../frontend/dist');
+const FRONTEND_DIST = path.join(__dirname, '../frontend/dist');
 app.use(express.static(FRONTEND_DIST));
 app.get('*', (_req, res) => {
   res.sendFile(path.join(FRONTEND_DIST, 'index.html'));
