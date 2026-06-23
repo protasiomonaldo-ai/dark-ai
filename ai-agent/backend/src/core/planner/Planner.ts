@@ -124,14 +124,15 @@ export class Planner {
   }
 
   async updateTaskStatus(taskId: string, status: TaskStatus, result?: Record<string, unknown>, error?: string): Promise<void> {
-    await pool.query(
-      `UPDATE tasks SET status = $1, result = $2, error = $3, 
-       started_at = CASE WHEN $1 = 'RUNNING' THEN NOW() ELSE started_at END,
-       completed_at = CASE WHEN $1 IN ('COMPLETED','FAILED','CANCELLED') THEN NOW() ELSE completed_at END
-       WHERE id = $4`,
-      [status, result ? JSON.stringify(result) : null, error || null, taskId]
-    );
-  }
+    async updateTaskStatus(taskId: string, status: TaskStatus, result?: Record<string, unknown>, error?: string): Promise<void> {
+  await pool.query(
+    `UPDATE tasks SET status = $1, result = $2, error = $3, 
+     started_at = CASE WHEN $4 = 'RUNNING' THEN NOW() ELSE started_at END,
+     completed_at = CASE WHEN $4 IN ('COMPLETED','FAILED','CANCELLED') THEN NOW() ELSE completed_at END
+     WHERE id = $5`,
+    [status, result ? JSON.stringify(result) : null, error || null, status, taskId]
+  );
+}
 
   async getSessionTasks(sessionId: string): Promise<PlannedTask[]> {
     const result = await pool.query(
